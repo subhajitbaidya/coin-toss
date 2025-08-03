@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./coin.css";
+import "./Coin.css";
 import headsImg from "../assets/images/heads.svg";
 import tailsImg from "../assets/images/tails.svg";
 
