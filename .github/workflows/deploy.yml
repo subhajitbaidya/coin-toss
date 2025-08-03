@@ -26,7 +26,9 @@ jobs:
     - name: Install dependencies
       run: npm install
 
-    - name: Build and Deploy
+    - name: Build the app
+      run: npm run build
+
+    - name: Deploy to GitHub Pages
       run: |
-        npm run build
-        npx gh-pages -d build -r https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
+        npx gh-pages -d dist -r https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
