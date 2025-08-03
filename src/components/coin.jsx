@@ -59,7 +59,7 @@ const Coin = () => {
 
     <>
 
-      <header className="flex justify-center items-center rounded-[5rem] shadow-sm shadow-green-500/75 ml-4 pl-4 mr-4 pr-4 mt-2 font-extrabold">
+      <header className="flex justify-center items-center rounded-[5rem] shadow-sm shadow-green-500/75 ml-4 pl-4 mr-4 pr-4 mt-2 mb-2 pt-2 pb-2 font-extrabold">
         <h1 className="text-2xl font-gray-500">Click on Heads or Tails</h1>
       </header>
 
