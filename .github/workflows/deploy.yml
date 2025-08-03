@@ -29,6 +29,11 @@ jobs:
     - name: Build the app
       run: npm run build
 
+    - name: Configure Git identity
+      run: |
+        git config user.name "subhajitbaidya"
+        git config user.email "subhajitbaidya43@gmail.com"
+
     - name: Deploy to GitHub Pages
       run: |
         npx gh-pages -d dist -r https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
