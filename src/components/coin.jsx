@@ -54,6 +54,8 @@ const Coin = () => {
       setShowWinner(true);
       setIsSpinning(false);
     }, duration);
+
+    setShowWinner(false);
   };
 
   return (
