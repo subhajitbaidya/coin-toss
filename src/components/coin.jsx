@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Coin.css";
 import headsImg from "../assets/images/heads.svg";
 import tailsImg from "../assets/images/tails.svg";
@@ -7,7 +7,16 @@ const Coin = () => {
   const [isSpinning, setIsSpinning] = useState(false);
   const [rotation, setRotation] = useState(0); // for locking rotation
   const [side, setSide] = useState("heads");
+  const [showWinner, setShowWinner] = useState(false);
 
+  useEffect(() => {
+    if (!showWinner) return;
+    const timer = setTimeout(() => {
+      setShowWinner(false);
+    }, 3000);
+
+    return () => clearTimeout(timer); // cleanup on unmount
+  }, [side]); // restart timer if side changes
 
   const handleFlip = () => {
     // Prevent multiple flips while one is in progress
@@ -32,7 +41,7 @@ const Coin = () => {
     // Create realistic spinning motion (multiple full rotations + final position)
     const baseRotations = 8 + Math.floor(Math.random() * 4); // 8-11 full spins
     const finalRotation = result === "Heads" ? 0 : 180;
-    const totalRotation = (baseRotations * 360) + finalRotation;
+    const totalRotation = baseRotations * 360 + finalRotation;
 
     // Set the spinning rotation immediately
     setRotation(totalRotation);
@@ -42,32 +51,19 @@ const Coin = () => {
 
     setTimeout(() => {
       setSide(result);
+      setShowWinner(true);
       setIsSpinning(false);
-
-      // Optional: Add result announcement or sound effect
-      console.log(`Coin landed on: ${result}`);
-
-      // Optional: Trigger celebration animation or sound
-      if (typeof onFlipComplete === 'function') {
-        onFlipComplete(result);
-      }
     }, duration);
   };
 
-
   return (
-
     <>
-
       <header className="flex justify-center items-center rounded-[5rem] shadow-sm shadow-green-500/75 ml-4 pl-4 mr-4 pr-4 mt-2 mb-2 pt-2 pb-2 font-extrabold">
         <h1 className="text-2xl font-gray-500">Click on Heads or Tails</h1>
       </header>
 
       <div className="flex justify-center items-center h-[85vh] w-auto">
-        <div
-          className="w-[150px] h-[150px] perspective-[1000px] m-[2px] p-[2px]"
-
-        >
+        <div className="w-[150px] h-[150px] perspective-[1000px] m-[2px] p-[2px]">
           <div
             className={`coin ${isSpinning ? "spinning" : ""}`}
             style={{
@@ -81,17 +77,25 @@ const Coin = () => {
           <br />
 
           <div className="flex justify-between flex-col items-center h-[10vh] w-auto font-semibold">
-
-            <button className="bg-red-500 shadow-md w-24 h-12 rounded-[5rem] cursor-pointer" onClick={handleFlip}>Heads</button>
+            <button
+              className="bg-red-500 shadow-md w-24 h-12 rounded-[5rem] cursor-pointer"
+              onClick={handleFlip}
+            >
+              Heads
+            </button>
 
             <br />
 
-            <button className="bg-amber-300 rounded-[5rem] w-24 h-12 shadow-md cursor-pointer" onClick={handleFlip}>Tails</button>
+            <button
+              className="bg-amber-300 rounded-[5rem] w-24 h-12 shadow-md cursor-pointer"
+              onClick={handleFlip}
+            >
+              Tails
+            </button>
 
             <br />
 
-            <p>Winner: {side}</p>
-
+            {showWinner && <p>Winner: {side}</p>}
           </div>
         </div>
       </div>
