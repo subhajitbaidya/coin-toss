@@ -1,9 +1,8 @@
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
-import tailwindcss from "@tailwindcss/vite";
+// vite.config.js
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
 
-// https://vitejs.dev/config/
 export default defineConfig({
-  base: '/coin-toss/',
-  plugins: [react(), tailwindcss()],
-});
+  base: '/coin-toss/', // ✅ Set to your repo name
+  plugins: [react()],
+})
