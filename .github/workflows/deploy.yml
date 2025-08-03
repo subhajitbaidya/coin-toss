@@ -1,15 +1,13 @@
 # .github/workflows/deploy.yml
-name: Build and Deploy to GitHub Pages
+name: Build and Deploy
 
-# Trigger on any push to main branch
+# Trigger on push to main branch
 on:
   push:
     branches: [ main ]
-  
-  # Allow manual trigger from Actions tab
   workflow_dispatch:
 
-# Required permissions for GitHub Pages deployment
+# Permissions for GitHub Pages
 permissions:
   contents: read
   pages: write
@@ -25,39 +23,28 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-    # Checkout the repository code
-    - name: Checkout repository
+    - name: Checkout
       uses: actions/checkout@v4
 
-    # Setup Node.js environment
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: '22'
+        node-version: '18'
         cache: 'npm'
 
-    # Install dependencies
     - name: Install dependencies
-      run: npm ci
+      run: npm install
 
-    # Build the React app
-    - name: Build React app
+    - name: Build website
       run: npm run build
-      env:
-        # Set the correct base path for GitHub Pages
-        PUBLIC_URL: /coin-toss
 
-    # Configure GitHub Pages
     - name: Setup Pages
       uses: actions/configure-pages@v4
       
-    # Upload build artifacts
-    - name: Upload build artifacts
+    - name: Upload build folder
       uses: actions/upload-pages-artifact@v3
       with:
-        path: './build'
+        path: './dist'
 
-    # Deploy to GitHub Pages
     - name: Deploy to GitHub Pages
-      id: deployment
       uses: actions/deploy-pages@v4
